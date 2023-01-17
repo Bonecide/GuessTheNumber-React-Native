@@ -1,20 +1,77 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
+import { LinearGradient } from 'expo-linear-gradient';
+import { ImageBackground, Keyboard, Pressable, SafeAreaView, StyleSheet, Text } from 'react-native';
+import StartGameScreen from './screens/StartGameScreen';
+import { useState, useCallback  } from 'react';
+import GameScreen from './screens/GameScreen';
+import colors from './constants/colors';
+import GameOverScreen from './screens/GameOverScreen';
+import  { useFonts }  from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 export default function App() {
+
+
+  const [pickedNumber,setPickedNumber] = useState()
+  const [isGameOver,setIsGameOver] = useState(false)
+  const [rounds, setRounds] = useState(0)
+  const [fontsLoaded] = useFonts(
+    {
+      'open-sans' : require('./assets/fonts/OpenSans-Regular.ttf'),
+      'open-sans-bold' : require('./assets/fonts/OpenSans-Bold.ttf')
+    }
+    )
+    const onLayoutRootView = useCallback(async () => {
+      if (fontsLoaded) {
+        await SplashScreen.hideAsync();
+      }
+    }, [fontsLoaded]);
+  
+    if (!fontsLoaded) {
+      return null;
+    }
+ 
+  let screen = <StartGameScreen onPickNumber = {setPickedNumber}/>
+  const startNewGame = () => {
+    setIsGameOver(false)
+    setPickedNumber(null)
+    screen = <StartGameScreen/>
+  }
+  if(pickedNumber) {
+    
+    screen = <GameScreen setRounds={setRounds} setIsGameOver= {setIsGameOver} userNumber={pickedNumber}/>
+  }
+  if (isGameOver) {
+    screen = <GameOverScreen onRestart={startNewGame} roundsNumber={rounds} userNumber={pickedNumber}/> 
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Pressable onLayout={onLayoutRootView}  style = {styles.rootScreen} onPress={Keyboard.dismiss}>
+    <LinearGradient
+      colors={[colors.primary700,colors.accent500]}
+       style = {styles.rootScreen}>
+        
+      <ImageBackground
+         source={require('./assets/background.png')}
+         resizeMode={'cover'}
+         style={styles.rootScreen}
+         imageStyle={styles.backgtoundImage}
+         
+         >
+          
+      <SafeAreaView style={styles.rootScreen}>
+        {screen}
+      </SafeAreaView>
+      </ImageBackground>
+    
+    </LinearGradient>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  rootScreen : {
+    flex:1,
   },
+  backgtoundImage : {
+    opacity : 0.15
+  }
 });
