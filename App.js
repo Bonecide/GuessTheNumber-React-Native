@@ -1,6 +1,6 @@
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { ImageBackground, Keyboard, Pressable, SafeAreaView, StyleSheet, Text } from 'react-native';
+import { ImageBackground, Keyboard, Pressable, SafeAreaView, StatusBar, StyleSheet, Text } from 'react-native';
 import StartGameScreen from './screens/StartGameScreen';
 import { useState, useCallback  } from 'react';
 import GameScreen from './screens/GameScreen';
@@ -44,25 +44,27 @@ export default function App() {
     screen = <GameOverScreen onRestart={startNewGame} roundsNumber={rounds} userNumber={pickedNumber}/> 
   }
   return (
-    
-    <LinearGradient
-      colors={[colors.primary700,colors.accent500]}
-       style = {styles.rootScreen}>
-        
-      <ImageBackground
-         source={require('./assets/background.png')}
-         resizeMode={'cover'}
-         style={styles.rootScreen}
-         imageStyle={styles.backgtoundImage}
-         
-         >
+    <>
+      <StatusBar hidden/>
+      <LinearGradient
+        colors={[colors.primary700,colors.accent500]}
+        style = {styles.rootScreen}>
           
-      <SafeAreaView style={styles.rootScreen}>
-        {screen}
-      </SafeAreaView>
-      </ImageBackground>
-    
-    </LinearGradient>
+        <ImageBackground
+          source={require('./assets/background.png')}
+          resizeMode={'cover'}
+          style={styles.rootScreen}
+          imageStyle={styles.backgtoundImage}
+          
+          >
+            
+        <SafeAreaView style={styles.rootScreen}>
+          {screen}
+        </SafeAreaView>
+        </ImageBackground>
+      
+      </LinearGradient>
+    </>
   );
 }
 
