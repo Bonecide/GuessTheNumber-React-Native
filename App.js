@@ -38,7 +38,7 @@ export default function App() {
   }
   if(pickedNumber) {
     
-    screen = <GameScreen setRounds={setRounds} setIsGameOver= {setIsGameOver} userNumber={pickedNumber}/>
+    screen = <GameScreen setRounds={setRounds} onGameOver= {setIsGameOver} userNumber={pickedNumber}/>
   }
   if (isGameOver) {
     screen = <GameOverScreen onRestart={startNewGame} roundsNumber={rounds} userNumber={pickedNumber}/> 
