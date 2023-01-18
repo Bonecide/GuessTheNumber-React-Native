@@ -44,7 +44,7 @@ export default function App() {
     screen = <GameOverScreen onRestart={startNewGame} roundsNumber={rounds} userNumber={pickedNumber}/> 
   }
   return (
-    <Pressable onLayout={onLayoutRootView}  style = {styles.rootScreen} onPress={Keyboard.dismiss}>
+    
     <LinearGradient
       colors={[colors.primary700,colors.accent500]}
        style = {styles.rootScreen}>
@@ -63,7 +63,6 @@ export default function App() {
       </ImageBackground>
     
     </LinearGradient>
-    </Pressable>
   );
 }
 
